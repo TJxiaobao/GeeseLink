@@ -9,6 +9,22 @@
 </h4>
 
 
+<p align="center">
+    <a target="_blank" href="https://www.apache.org/licenses/LICENSE-2.0.txt">
+		<img src="https://img.shields.io/:license-Apache2-blue.svg" alt="Apache 2" />
+	</a>
+    <a target="_blank" href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html">
+		<img src="https://img.shields.io/badge/JDK-8-green.svg" alt="jdk-8" />
+	</a>
+        <img src="https://img.shields.io/badge/SpringBoot-v2.x-blue">
+    <a target="_blank" href='https://gitee.com/tiejia-xiaobao/geese-link'>
+		<img src='https://gitee.com/tiejia-xiaobao/geese-link/badge/star.svg' alt='Gitee star'/>
+	</a>
+    <a target="_blank" href='https://github.com/TJxiaobao/GeeseLink'>
+		<img src="https://img.shields.io/github/stars/TJxiaobao/GeeseLink.svg?logo=github" alt="Github star"/>
+	</a>
+</p>
+
 ## 🎡 <font color="green">Introduction</font>
 GeeseLink is a lightweight message middleware based on sms4j.
 

@@ -1,0 +1,2 @@
+com.message.job.task.type.Impl.EmailSend
+com.message.job.task.type.Impl.SmsSend

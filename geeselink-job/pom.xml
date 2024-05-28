@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.message</groupId>
-        <artifactId>message-center</artifactId>
+        <artifactId>geese-link</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
@@ -14,7 +14,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>message-job</name>
+    <name>geeselink-job</name>
     <description>job</description>
 
     <dependencies>
@@ -60,7 +60,8 @@
 
         <dependency>
             <groupId>com.message.common</groupId>
-            <artifactId>message-common</artifactId>
+            <artifactId>geeselink-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <!--        <dependency>-->

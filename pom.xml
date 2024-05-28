@@ -5,19 +5,19 @@
 
 
     <groupId>com.message</groupId>
-    <artifactId>message-center</artifactId>
+    <artifactId>geese-link</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
-    <name>message-center</name>
-    <description>message-center</description>
+    <name>geese-link</name>
+    <description>geese-link</description>
 
     <modules>
-        <module>message-job</module>
-        <module>message-srv</module>
-        <module>message-common</module>
-        <module>message-monitor</module>
+        <module>geeselink-job</module>
+        <module>geeselink-srv</module>
+        <module>geeselink-common</module>
+        <module>geeselink-monitor</module>
     </modules>
 
 

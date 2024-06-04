@@ -324,21 +324,25 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const configId = row.id;
-      this.$modal
-        .confirm('是否确认删除sms编号为"' + configId + '"的数据项？')
-        .then(() => {
-          this.loading = true;
-          return deleteSms(configId);
-        })
-        .then(() => {
-          this.loading = false;
-          this.getList();
-          this.$modal.msgSuccess("删除成功");
-        })
-        .catch(() => {})
-        .finally(() => {
-          this.loading = false;
-        });
+      deleteSms(configId).then((res) => {
+        this.getList()
+        this.$modal.msgSucccess("删除成功")
+      })
+      // this.$modal
+      //   .confirm('是否确认删除sms编号为"' + configId + '"的数据项？')
+      //   .then(() => {
+      //     this.loading = true;
+      //     return deleteSms(configId);
+      //   })
+      //   .then(() => {
+      //     this.loading = false;
+      //     this.getList();
+      //     this.$modal.msgSuccess("删除成功");
+      //   })
+      //   .catch(() => {})
+      //   .finally(() => {
+      //     this.loading = false;
+      //   });
     },
     /** 导出按钮操作 */
     handleExport() {

@@ -281,9 +281,7 @@ export default {
     handleUpdate(row) {
       this.loading = true;
       this.reset();
-
-      const configId = row.id;
-      getEmail(configId).then((response) => {
+      getEmail(row.id).then((response) => {
         this.loading = false;
         this.form = response.data;
         this.open = true;
@@ -323,21 +321,25 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const configId = row.id;
-      this.$modal
-        .confirm('是否确认删除邮箱编号为"' + configId + '"的数据项？')
-        .then(() => {
-          this.loading = true;
-          return deleteEmail(configId);
-        })
-        .then(() => {
-          this.loading = false;
-          this.getList();
-          this.$modal.msgSuccess("删除成功");
-        })
-        .catch(() => {})
-        .finally(() => {
-          this.loading = false;
-        });
+      deleteEmail(configId).then((res) =>{
+        this.getList()
+        this.$modal.msgSucccess("删除成功")
+      })
+      // this.$modal
+      //   .confirm('是否确认删除邮箱编号为"' + configId + '"的数据项？')
+      //   .then(() => {
+      //     this.loading = true;
+      //     return deleteEmail(configId);
+      //   })
+      //   .then(() => {
+      //     this.loading = false;
+      //     this.getList();
+      //     this.$modal.msgSuccess("删除成功");
+      //   })
+      //   .catch(() => {})
+      //   .finally(() => {
+      //     this.loading = false;
+      //   });
     },
     /** 导出按钮操作 */
     handleExport() {

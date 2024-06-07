@@ -2,6 +2,7 @@ package com.message.common.domin.vo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -13,9 +14,11 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("邮件配置 VO")
-public class EmailConfigVo {
-
+@ApiModel("短信配置 VO")
+public class SmsConfigVo {
+    /**
+     * 配置 ID
+     */
     private String id;
 
     /**
@@ -24,34 +27,29 @@ public class EmailConfigVo {
     private String configId;
 
     /**
-     * 用户名
+     * 运营商
      */
-    private String username;
+    private String supplier;
 
     /**
-     * 授权码
+     * accessKeyId
      */
-    private String password;
+    private String accessKeyId;
 
     /**
-     * host
+     * accessKeySecret
      */
-    private String host;
+    private String accessKeySecret;
 
     /**
-     * 端口
+     * 签名
      */
-    private Integer port;
+    private String signature;
 
     /**
-     * 协议
+     * 模版 ID
      */
-    private String protocol;
-
-    /**
-     * 默认编码
-     */
-    private String defaultEncoding;
+    private String templateId;
 
     private Date createdAt;
 

@@ -102,7 +102,7 @@ todo
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=geeselink&type=Date)](https://star-history.com/#geeselink&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=TJxiaobao/GeeseLink&type=Date)](https://star-history.com/#TJxiaobao/GeeseLink&Date)
 
 
 ## 🍔 有话说

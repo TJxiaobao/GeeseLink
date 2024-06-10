@@ -99,7 +99,7 @@ todo
 </table>
 
 ## Star History
-[![Star History Chart](https://api.star-history.com/svg?repos=geeselink&type=Date)](https://star-history.com/#geeselink&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=TJxiaobao/GeeseLink&type=Date)](https://star-history.com/#TJxiaobao/GeeseLink&Date)
 
 ## 🍔 Word
 This project is currently in the development stage, and there may be many areas that are not very perfect. We hope everyone can be more tolerant. We also hope that everyone can support us more!

@@ -12,6 +12,8 @@ import com.message.common.domin.bo.SmsConfigSelectBo;
 import com.message.common.domin.bo.SmsConfigUpdateBo;
 import com.message.common.domin.excel.EmailConfigExcelData;
 import com.message.common.domin.excel.SmsConfigExcelData;
+import com.message.common.domin.vo.EmailConfigVo;
+import com.message.common.domin.vo.SmsConfigVo;
 import com.message.common.http.Result;
 import com.message.common.service.EmailConfigService;
 import com.message.common.service.SmsConfigService;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,77 +46,100 @@ public class ConfigController {
 
     @ApiOperation("添加邮箱配置")
     @PostMapping("/add/email")
-    public Result<EmailConfig> addEmail(@ApiParam(value = "邮件配置类", required = true) @RequestBody EmailConfigInsertBo emailConfigInsertBo) {
+    public Result<EmailConfigVo> addEmail(@ApiParam(value = "邮件配置类", required = true) @RequestBody EmailConfigInsertBo emailConfigInsertBo) {
         EmailConfig emailConfig = BeanUtil.copyProperties(emailConfigInsertBo, EmailConfig.class);
-        emailConfigService.save(emailConfig);
-        return Result.success("success", emailConfig);
+        boolean save = emailConfigService.save(emailConfig);
+        EmailConfigVo emailConfigVo = new EmailConfigVo();
+        BeanUtil.copyProperties(emailConfig, emailConfigVo);
+        return save ? Result.success("success", emailConfigVo) : Result.fail("fail", null);
     }
 
     @ApiOperation("添加短信配置")
     @PostMapping("/add/sms")
-    public Result<SmsConfig> addSms(@RequestBody SmsConfigInsertBo smsConfigInsertBo) {
+    public Result<SmsConfigVo> addSms(@RequestBody SmsConfigInsertBo smsConfigInsertBo) {
         SmsConfig smsConfig = BeanUtil.copyProperties(smsConfigInsertBo, SmsConfig.class);
-        smsConfigService.save(smsConfig);
-        return Result.success("success", smsConfig);
+        boolean save = smsConfigService.save(smsConfig);
+        SmsConfigVo smsConfigVo = new SmsConfigVo();
+        BeanUtil.copyProperties(smsConfig, smsConfigVo);
+        return save ? Result.success("success", smsConfigVo) : Result.fail("fail", null);
     }
 
     @ApiOperation("更新邮箱配置")
     @PostMapping("/update/email")
-    public Result<EmailConfig> updateEmail(@RequestBody EmailConfigUpdateBo emailConfigBo) {
+    public Result<EmailConfigVo> updateEmail(@RequestBody EmailConfigUpdateBo emailConfigBo) {
         EmailConfig emailConfig = BeanUtil.copyProperties(emailConfigBo, EmailConfig.class);
-        emailConfigService.updateById(emailConfig);
-        return Result.success("success", emailConfig);
+        boolean flag = emailConfigService.updateById(emailConfig);
+        EmailConfigVo emailConfigVo = new EmailConfigVo();
+        BeanUtil.copyProperties(emailConfig, emailConfigVo);
+        return flag ? Result.success("success", emailConfigVo) : Result.fail("fail", null);
     }
 
     @ApiOperation("更新短信配置")
     @PostMapping("/update/sms")
-    public Result<SmsConfig> updateEmail(@RequestBody SmsConfigUpdateBo smsConfigBo) {
+    public Result<SmsConfigVo> updateEmail(@RequestBody SmsConfigUpdateBo smsConfigBo) {
         SmsConfig smsConfig = BeanUtil.copyProperties(smsConfigBo, SmsConfig.class);
-        smsConfigService.updateById(smsConfig);
-        return Result.success("success", smsConfig);
+        boolean flag = smsConfigService.updateById(smsConfig);
+        SmsConfigVo smsConfigVo = new SmsConfigVo();
+        BeanUtil.copyProperties(smsConfig, smsConfigVo);
+        return flag ? Result.success("success", smsConfigVo) : Result.fail("fail", null);
     }
 
     @ApiOperation("删除邮箱配置")
     @DeleteMapping("/del/email")
     public Result<Boolean> delEmail(@RequestParam("id") String id) {
-
-        emailConfigService.removeById(Long.parseLong(id));
-        return Result.success("success", true);
+        boolean flag = emailConfigService.removeById(Long.parseLong(id));
+        return flag ? Result.success("success", true) : Result.fail("fail", false);
     }
 
     @ApiOperation("删除短信配置")
     @DeleteMapping("/del/sms")
     public Result<Boolean> delSms(@RequestParam("id") String id) {
-        smsConfigService.removeById(Long.parseLong(id));
-        return Result.success("success", true);
+        boolean flag = smsConfigService.removeById(Long.parseLong(id));
+        return flag ? Result.success("success", true) : Result.fail("fail", false);
     }
 
     @ApiOperation("查询单个邮箱配置")
     @GetMapping("/get_info/email")
-    public Result<EmailConfig> getInfoEmail(@RequestParam("id") String id) {
+    public Result<EmailConfigVo> getInfoEmail(@RequestParam("id") String id) {
         EmailConfig data = emailConfigService.getById(Long.parseLong(id));
-        return Result.success("success", data);
+        EmailConfigVo emailConfigVo = new EmailConfigVo();
+        BeanUtil.copyProperties(data, emailConfigVo);
+        return Result.success("success", emailConfigVo);
     }
 
     @ApiOperation("查询单个短信配置")
     @GetMapping("/get_info/sms")
-    public Result<SmsConfig> getInfoSms(@RequestParam("id") String id) {
+    public Result<SmsConfigVo> getInfoSms(@RequestParam("id") String id) {
         SmsConfig data = smsConfigService.getById(Long.parseLong(id));
-        return Result.success("success", data);
+        SmsConfigVo smsConfigVo = new SmsConfigVo();
+        BeanUtil.copyProperties(data, smsConfigVo);
+        return Result.success("success", smsConfigVo);
     }
 
     @ApiOperation("查询邮箱配置")
     @GetMapping("/list/email")
-    public Result<List<EmailConfig>> listEmail(EmailConfigSelectBo bo) {
+    public Result<List<EmailConfigVo>> listEmail(EmailConfigSelectBo bo) {
         List<EmailConfig> data = emailConfigService.getList(bo);
-        return Result.success("success", data);
+        List<EmailConfigVo> emailConfigVos = new ArrayList<>();
+        data.forEach(emailConfig -> {
+            EmailConfigVo emailConfigVo = new EmailConfigVo();
+            BeanUtil.copyProperties(emailConfig, emailConfigVo);
+            emailConfigVos.add(emailConfigVo);
+        });
+        return Result.success("success", emailConfigVos);
     }
 
     @ApiOperation("查询短信配置")
     @GetMapping("/list/sms")
-    public Result<List<SmsConfig>> listSms(SmsConfigSelectBo bo) {
+    public Result<List<SmsConfigVo>> listSms(SmsConfigSelectBo bo) {
         List<SmsConfig> data = smsConfigService.getList(bo);
-        return Result.success("success", data);
+        List<SmsConfigVo> smsConfigVos = new ArrayList<>();
+        data.forEach(smsConfig -> {
+            SmsConfigVo smsConfigVo = new SmsConfigVo();
+            BeanUtil.copyProperties(smsConfig, smsConfigVo);
+            smsConfigVos.add(smsConfigVo);
+        });
+        return Result.success("success", smsConfigVos);
     }
 
     @ApiOperation("导出邮件配置")

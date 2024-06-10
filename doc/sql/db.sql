@@ -109,3 +109,16 @@ CREATE TABLE message_record
     INDEX idx_status (status)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='消息记录表';
+
+-- 创建message_blacklist表
+CREATE TABLE message_blacklist (
+                           id INT AUTO_INCREMENT PRIMARY KEY,
+                           msg_to VARCHAR(255) NOT NULL COMMENT '接受人',
+                           msg_type VARCHAR(50) NOT NULL COMMENT '消息类型',
+                           create_time BIGINT COMMENT '创建时间',
+                           update_time BIGINT COMMENT '更新时间',
+                           create_by VARCHAR(100) COMMENT '创建人',
+                           is_active TINYINT(1) DEFAULT 1 COMMENT '是否有效 0 无效 1 有效',
+                           is_deleted       TINYINT(1) DEFAULT 0 COMMENT '逻辑删除标识，0-未删除，1-已删除',
+                           reason VARCHAR(500) COMMENT '原因'
+); ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT ='黑名单表';

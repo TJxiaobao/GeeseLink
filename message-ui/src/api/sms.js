@@ -10,8 +10,11 @@ export function addSms(data) {
 
 export function deleteSms(id) {
   return request({
-    url: `/system/config/add/sms/${id}`,
+    url: "/system/config/del/sms",
     method: "delete",
+    params: {
+      id: id,
+    }
   });
 }
 
@@ -31,7 +34,7 @@ export function listSms(query) {
 }
 export function getSms(id) {
   return request({
-    url: "/system/config/getinfo/sms",
+    url: "/system/config/get_info/sms",
     method: "get",
     params: { id },
   });

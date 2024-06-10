@@ -10,8 +10,11 @@ export function addEmail(data) {
 
 export function deleteEmail(id) {
   return request({
-    url: `/system/config/add/email/${id}`,
+    url: "/system/config/del/email",
     method: "delete",
+    params : {
+      id: id,
+    }
   });
 }
 
@@ -31,7 +34,7 @@ export function listEmail(query) {
 }
 export function getEmail(id) {
   return request({
-    url: "/system/config/getinfo/email",
+    url: "/system/config/get_info/email",
     method: "get",
     params: { id },
   });

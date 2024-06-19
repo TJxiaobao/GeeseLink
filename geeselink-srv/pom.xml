@@ -68,7 +68,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.message.messagesrv.MessageSrvApplication</mainClass>
+                    <mainClass>com.message.srv.MessageSrvApplication</mainClass>
                     <skip>true</skip>
                 </configuration>
                 <executions>

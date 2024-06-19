@@ -1,4 +1,4 @@
-package com.message.messagesrv;
+package com.message.srv;
 
 import cn.hutool.json.JSONObject;
 import com.message.common.domin.bo.EmailConfigInsertBo;

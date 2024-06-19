@@ -1,4 +1,4 @@
-package com.message.messagesrv.controller;
+package com.message.srv.controller;
 
 import com.message.common.domin.bo.TemplateBo;
 import com.message.common.http.Result;

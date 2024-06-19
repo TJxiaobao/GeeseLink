@@ -1,6 +1,8 @@
 package com.message.job.service.Impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.message.common.domin.MessageRecord;
 import com.message.common.domin.MessageTaskInfo;
 import com.message.common.domin.MessageTaskScheduleConfig;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+
+import static com.message.common.constants.HttpConstants.*;
 
 @Service
 @Slf4j
@@ -49,24 +53,27 @@ public class MessageSendTaskServiceImpl implements MessageSendTaskService {
         log.info("拉取一次任务:\nlimit:" + limit + "\nmaxRetry:" + maxRetry);
 
         // 拉取任务
-        LambdaQueryWrapper<MessageTaskInfo> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(MessageTaskInfo::getStatus, MessageTaskInfoStatusEnum.STATUS_ENUM_NO_SEND.getStatusCode())
-                .last("LIMIT " + limit);
-        List<MessageTaskInfo> messageTaskInfos = messageTaskInfoService.list(queryWrapper);
+        // todo 不在和数据库接触，而是通过请求srv服务拿到数据
+        List<MessageTaskInfo> messageTaskInfos = getMessageTaskInfos(limit);
+//        LambdaQueryWrapper<MessageTaskInfo> queryWrapper = new LambdaQueryWrapper<>();
+//        queryWrapper.eq(MessageTaskInfo::getStatus, MessageTaskInfoStatusEnum.STATUS_ENUM_NO_SEND.getStatusCode())
+//                .last("LIMIT " + limit);
+//        List<MessageTaskInfo> messageTaskInfos = messageTaskInfoService.list(queryWrapper);
         log.info("任务信息:" + messageTaskInfos);
 
         ArrayList<Future<MessageTaskInfo>> futures = new ArrayList<>();
         // 执行任务
         for (MessageTaskInfo task : messageTaskInfos) {
+            // 更改任务状态则不交给job模块处理
             Future<MessageTaskInfo> messageTaskInfoFuture = workPool.submitJob(new AsyncExecute(task));
-            task.setStatus(MessageTaskInfoStatusEnum.STATUS_ENUM_SENDING.getStatusCode());
+//            task.setStatus(MessageTaskInfoStatusEnum.STATUS_ENUM_SENDING.getStatusCode());
             futures.add(messageTaskInfoFuture);
         }
-        messageTaskInfoService.updateBatchById(messageTaskInfos);
+        //messageTaskInfoService.updateBatchById(messageTaskInfos);
         // 任务信息刷库
         // 遍历futures列表
         ArrayList<MessageRecord> messageRecords = new ArrayList<>();
-        ArrayList<MessageTaskInfo> messageTaskInfosUpdate = new ArrayList<>();
+        List<MessageTaskInfo> messageTaskInfosUpdate = new ArrayList<>();
         for (Future<MessageTaskInfo> future : futures) {
             try {
                 // 获取异步执行的结果，设置最大等待时间为1秒
@@ -82,7 +89,9 @@ public class MessageSendTaskServiceImpl implements MessageSendTaskService {
                 log.error("MessageTaskInfo execute error: {}", e.getMessage());
             }
         }
-        messageTaskInfoService.updateBatchById(messageTaskInfosUpdate);
+        //messageTaskInfoService.updateBatchById(messageTaskInfosUpdate);
+        // 则需要向srv服务更新message task任务状态
+        updateMessageTaskInfos(messageTaskInfosUpdate);
         messageRecordService.saveBatch(messageRecords);
     }
 
@@ -118,4 +127,28 @@ public class MessageSendTaskServiceImpl implements MessageSendTaskService {
         }
     }
 
+    private List<MessageTaskInfo> getMessageTaskInfos(int limit) {
+        // todo 把limit放入到请求体中
+
+        String body = HttpUtil.createPost(JOB_URL)
+                .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)
+                .execute()
+                .body();
+        if (StringUtils.isBlank(body)) {
+            throw new RuntimeException("pull message task error, message = " + body);
+        }
+        return JSONUtil.toList(body, MessageTaskInfo.class);
+    }
+
+    private void updateMessageTaskInfos(List<MessageTaskInfo> messageTaskInfos) {
+        String body = JSONUtil.toJsonStr(messageTaskInfos);
+        String responseStr = HttpUtil.createPost(JOB_URL)
+                .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)
+                .body(body)
+                .execute()
+                .body();
+        if (StringUtils.isBlank(responseStr)) {
+            throw new RuntimeException("update message task error, message = " + responseStr);
+        }
+    }
 }

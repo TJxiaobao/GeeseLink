@@ -1,4 +1,4 @@
-package com.message.messagesrv.config;
+package com.message.srv.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

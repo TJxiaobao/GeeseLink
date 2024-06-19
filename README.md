@@ -40,7 +40,7 @@ GeeseLink is a lightweight message middleware based on sms4j.
 - Message alarm (under development).
 - Message push (under development).
 - Message log (under development).
-- Message blacklist (under development).
+- Message blacklist (completed).
 - ...
 
 ## 🥐Modules

@@ -1,4 +1,4 @@
-package com.message.messagesrv.controller;
+package com.message.srv.controller;
 
 
 import cn.hutool.core.bean.BeanUtil;

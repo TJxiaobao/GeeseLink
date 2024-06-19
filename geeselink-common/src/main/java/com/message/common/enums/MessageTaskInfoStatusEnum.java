@@ -15,7 +15,9 @@ public enum MessageTaskInfoStatusEnum {
 
     STATUS_ENUM_SEND_SUCCESS(2, "send_success", "发送成功"),
 
-    STATUS_ENUM_SEND_FAIL(3, "send_fail", "发送失败");
+    STATUS_ENUM_SEND_FAIL(3, "send_fail", "发送失败"),
+
+    STATUS_ENUM_SEND_BLACK(4, "send_black", "用户拒绝接收");
 
     private final int statusCode;
 
